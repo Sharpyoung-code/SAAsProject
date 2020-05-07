@@ -1,31 +1,116 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+﻿
+<header class="masthead" style="background-image:url('/Content/img/home-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h2>Welcome To Long Notes</h2>
+                    <span class="subheading" style="line-height: 1.5">Take notes, web pages, todo list, projects and research anywhere.
+                    Find information faster. Share your ideas with anyone. Keep records and stay organized.</span> <br/>
+                    <a class="btn btn-primary btn-sm" href="/Account/Register">START FREE TRIAL</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<div class="container" id="features">
+        <h2 class="text-center">FEATURES</h2>
+        <p class="text-center" style="margin: 0px">Save all your notes. Don't forget anything</p>
+    <div class="row justify-content-center" style="padding-top: 80px">
+        <div class="col-md-4 mx-auto">
+            <div class="justify-content-center" style="display: flex">
+                <span class="text-center" style="height: 100px; width: 100px; display: inline-block; border-radius: 50%; background-color: #0085A1">
+                    <i class="fa fa-laptop" style="color: #fff; font-size: 60px; margin-top: 20px"></i>
+                </span>
+            </div><h3 class="text-center">Simple to use</h3>
+            <p>
+                This application is very easy to use.
+                Manage everything from big projects to personal moment. 
+                Just sign up for the free trial and check it out.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <div class="justify-content-center" style="display: flex">
+                <span class="text-center" style="height: 100px; width: 100px; display: inline-block; border-radius: 50%; background-color: #0085A1">
+                    <i class="fa fa-lock" style="color: #fff; font-size: 60px; margin-top: 20px"></i>
+                </span>
+            </div><h3 class="text-center">Secured</h3>
+            <p>This application is protected using SSL encryption. All your data are safe and secured in the Microsoft Azure.</p>
+        </div>
+        <div class="col-md-4">
+            <div class="justify-content-center" style="display: flex">
+               <span class="text-center" style="height: 100px; width: 100px; display: inline-block; border-radius: 50%; background-color: #0085A1">
+                   <i class="fa fa-bell-o" style="color: #fff; font-size: 60px; margin-top: 20px"></i>
+               </span>
+            </div>
+            <h3 class="text-center">Reminder</h3>
+            <p>Never lose tracks of your tasks and deadlines.</p>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div id="pricing">
+        <h2 class="text-center">PRICING</h2>
+        <p class="text-center" style="margin: 0px">Choose the plan of your choice</p>
+    <div class="row plans">
+            <div class="col-md-4 basic">
+                <h5 class="card-title text-uppercase">Basic Plan</h5>
+                <div class="price">
+                    <span>$30</span>
+                </div>
+                <p class="card-text">Keep up to 100 of notes <br/>
+                Get notified always <br/> 
+                10 free templates for your research </p>
+                <a class="btn btn-primary" href="#">Subscribe Now</a>
+            </div>
+            <div class="col-md-4 standard">
+                <h5 class="card-title text-uppercase">Standard Plan</h5>
+                <div class="price">
+                    <span>$50</span>
+                </div>
+                <p class="card-text">
+                    Keep up to 1000 of notes <br />
+                    Get notified always <br />
+                    500 free templates for your research
+                </p>
+                <a class="btn btn-primary" href="#">Subscribe Now</a>
+            </div>
+            <div class="col-md-4 premium">
+                <h5 class="card-title text-uppercase">Premium Plan</h5>
+                <div class="price">
+                    <span>$100</span>
+                </div>
+                <p class="card-text">
+                    Keep up to unlimited of notes <br />
+                    Get notified always <br />
+                    1000 free templates for your research
+                </p>
+                <a class="btn btn-primary" href="#">Subscribe Now</a>
+            </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+</div>
+<div class="container" id="questions">
+    <h2 class="text-center">FREQUENTLY ASKED QUESTIONS</h2>
+    <p class="text-center" style="margin: 0px">We have collected here some of the questions wew receive more often.</p>
+    <div class="row" style="padding-top: 50px">
+        <div class="col-md-6">
+            <span><strong>Q. CAN I CHANGE PLAN AT ANYTIME?</strong></span>
+            <p>Yes. After you log in to your dashboard you can upgrade/downgrade plans at any
+            time. Your bill will be pro-rated in that case.</p>
+
+            <span><strong>Q. WHAT CREDIT CARD NUMBER CAN I USE FOR THIS DEMO?</strong></span>
+            <p>You can use this <span>Card Number: 4242 4242 4242 4242</span>
+            , any future date as expiry date and any 3 digits for CVC</p>
+        </div>
+        <div class="col-md-6">
+            <span><strong>Q. WHAT TYPES OF PAYMENT DO YOU ACCEPT?</strong></span>
+            <p>Currently we accept Visa, MaterCard, Discover and American Express. We do not accept Paypal.
+            At htis time we only accept paymentys online so we will not be able to accept a P.O invoice you or take an order over the phone.</p>
+
+            <span><strong>Q. I STILL HAVE A QUESTION. HOW DO I CONTACT YOU?</strong></span>
+            <p>Send us a Tweet @@sharpyoung</p>
+        </div>
     </div>
 </div>

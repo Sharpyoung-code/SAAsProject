@@ -2,39 +2,49 @@
 @{
     ViewBag.Title = "Register";
 }
+<div style="margin-top: 70px">
+     <h2 class="text-center" style="margin-bottom: 20px">Long Notes</h2>
+       <h4 class="text-uppercase text-center" style="margin: 0px">start your 30-day free trial</h4>
+         <p class="text-uppercase text-center" style="margin: 0px 0px 20px 0px; font-size: 13px">no credit card required. all features included.</p>
+</div>
 
-<h2>@ViewBag.Title.</h2>
-
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal login", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
+    
+   
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        <div class="col-md-12">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        <div class="col-md-12">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-12 control-label" })
+        <div class="col-md-12">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+        <div class="col-md-12">
+            <input type="submit" class="btn btn-primary" value="START YOUR FREE TRIAL" />
         </div>
     </div>
 }
+        </div>
+    <div class="col-md-3"></div>
+    </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

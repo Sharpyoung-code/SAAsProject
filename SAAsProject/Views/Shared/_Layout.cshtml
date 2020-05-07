@@ -1,43 +1,90 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>LongNotes</title>
+
+    @Styles.Render("~/Content/bootstrapcss")
+
+    
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+  
+    @Styles.Render("~/Content/stylecss")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            <a class="navbar-brand" href="/Home/Index">Long Notes</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faqs">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </nav>
 
-    @Scripts.Render("~/bundles/jquery")
+        @RenderBody()
+
+ <footer>
+     <div class="container" id="contact">
+         <div class="row">
+             <div class="col-lg-8 col-md-10 mx-auto">
+                 <ul class="list-inline text-center">
+                     <li class="list-inline-item">
+                         <a href="#">
+                             <span class="fa-stack fa-lg">
+                                 <i class="fas fa-circle fa-stack-2x"></i>
+                                 <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                             </span>
+                         </a>
+                     </li>
+                     <li class="list-inline-item">
+                         <a href="#">
+                             <span class="fa-stack fa-lg">
+                                 <i class="fas fa-circle fa-stack-2x"></i>
+                                 <i class="fa fa-facebook-f fa-stack-1x fa-inverse"></i>
+                             </span>
+                         </a>
+                     </li>
+                     <li class="list-inline-item">
+                         <a href="#">
+                             <span class="fa-stack fa-lg">
+                                 <i class="fas fa-circle fa-stack-2x"></i>
+                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                             </span>
+                         </a>
+                     </li>
+                 </ul>
+                 <p class="copyright text-muted">Copyright &copy; Long Notes @DateTime.Now.Year</p>
+             </div>
+         </div>
+     </div>
+ </footer>
+
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

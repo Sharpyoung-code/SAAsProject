@@ -20,12 +20,20 @@ namespace SAAsProject
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/jquery.min.js",
+                      "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/clean-blog.min.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/bootstrapcss").Include(
+                      "~/Content/bootstrap.min.css",
+                      "~/Content/font-awesome.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/font").Include(
+                "~/Content/all.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/stylecss").Include(
+               "~/Content/clean-blog.css"));
         }
     }
 }
