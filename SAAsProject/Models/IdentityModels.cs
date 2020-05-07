@@ -13,6 +13,7 @@ namespace SAAsProject.Models
     public class ApplicationUser : SaasEcomUser
     {
         public virtual ICollection<Note> Notes { get; set; }
+        public virtual BillingAddress BillingAddress { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
 
@@ -39,5 +40,7 @@ namespace SAAsProject.Models
             modelBuilder.Entity<ApplicationUser>().Map(m => m.MapInheritedProperties());
             base.OnModelCreating(modelBuilder);
         }
+
+        public System.Data.Entity.DbSet<SAAsProject.Models.Note> Notes { get; set; }
     }
 }

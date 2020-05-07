@@ -47,12 +47,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MaxMind.Db, Version=2.0.0.0, Culture=neutral, PublicKeyToken=66afa4cc5ae853ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaxMind.Db.2.6.1\lib\net45\MaxMind.Db.dll</HintPath>
+    </Reference>
+    <Reference Include="MaxMind.GeoIP2, Version=3.0.0.0, Culture=neutral, PublicKeyToken=66afa4cc5ae853ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaxMind.GeoIP2.3.2.0\lib\net45\MaxMind.GeoIP2.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SaasEcom.Core, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SaasEcom.Core.1.1.3\lib\net45\SaasEcom.Core.dll</HintPath>
@@ -200,7 +206,9 @@
     <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\StripeWebhooksController.cs" />
+    <Compile Include="Extensions\GeoLocationHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -211,6 +219,10 @@
     <Compile Include="Migrations\202005071933180_NotesAddedToModel.cs" />
     <Compile Include="Migrations\202005071933180_NotesAddedToModel.Designer.cs">
       <DependentUpon>202005071933180_NotesAddedToModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005072232434_BillingAddressAddedToUser.cs" />
+    <Compile Include="Migrations\202005072232434_BillingAddressAddedToUser.Designer.cs">
+      <DependentUpon>202005072232434_BillingAddressAddedToUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -288,6 +300,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="App_Data\GeoLite2-Country.mmdb" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -434,10 +447,13 @@
     <Content Include="Views\Billing\BillingAddress.cshtml" />
     <Content Include="Views\Billing\AddCreditCard.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Views\Notes\Create.cshtml" />
+    <Content Include="Views\Notes\Delete.cshtml" />
+    <Content Include="Views\Notes\Details.cshtml" />
+    <Content Include="Views\Notes\Edit.cshtml" />
+    <Content Include="Views\Notes\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -453,6 +469,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005071933180_NotesAddedToModel.resx">
       <DependentUpon>202005071933180_NotesAddedToModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005072232434_BillingAddressAddedToUser.resx">
+      <DependentUpon>202005072232434_BillingAddressAddedToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

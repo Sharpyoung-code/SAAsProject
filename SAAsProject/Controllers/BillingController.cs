@@ -102,9 +102,11 @@ namespace SAAsProject.Controllers
 
         public async Task<ViewResult> Index()
         {
+            var userId = User.Identity.GetUserId();
             ViewBag.Subscriptions = await SubscriptionsFacade.UserActiveSubscriptionsAsync(User.Identity.GetUserId());
             ViewBag.PaymentDetails = await SubscriptionsFacade.DefaultCreditCard(User.Identity.GetUserId());
             ViewBag.Invoices = await InvoiceDataService.UserInvoicesAsync(User.Identity.GetUserId());
+           
 
             return View();
         }

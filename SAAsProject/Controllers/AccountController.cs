@@ -15,7 +15,8 @@ using SaasEcom.Core.Infrastructure.PaymentProcessor.Stripe;
 using System.Configuration;
 using SaasEcom.Core.DataServices.Storage;
 using SaasEcom.Core.Models;
-
+using SAAsProject.Extensions;
+using SaasEcom.Core.Infrastructure.Helpers;
 
 namespace SAAsProject.Controllers
 {
@@ -178,19 +179,25 @@ namespace SAAsProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userIP = GeoLocation.GetUserIP(Request).Split(':').First();
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     RegistrationDate = DateTime.UtcNow,
-                    LastLoginTime = DateTime.UtcNow
+                    LastLoginTime = DateTime.UtcNow,
+                    IPAddress = userIP,
+                    IPAddressCountry = GeoLocationHelper.GetCountryFromIP(userIP),
+                    BillingAddress = new BillingAddress()
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
 
                 if (result.Succeeded)
                 {
-
+                    var taxPercent = EuropeanVat.Countries.ContainsKey(user.IPAddressCountry) ?
+                                     EuropeanVat.Countries[user.IPAddressCountry] : 0;
+                    await SubscriptionsFacade.SubscribeUserAsync(user, model.SubscriptionPlan, taxPercent: taxPercent);
                     // if no plan set, default to professional
                     var planId = string.IsNullOrEmpty(model.SubscriptionPlan)
                       ? "standard_monthly"
