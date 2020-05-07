@@ -8,7 +8,7 @@
                     <h2>Welcome To Long Notes</h2>
                     <span class="subheading" style="line-height: 1.5">Take notes, web pages, todo list, projects and research anywhere.
                     Find information faster. Share your ideas with anyone. Keep records and stay organized.</span> <br/>
-                    <a class="btn btn-primary btn-sm" href="/Account/Register">START FREE TRIAL</a>
+                    <a class="btn btn-primary btn-sm" href="#pricing">START FREE TRIAL</a>
                 </div>
             </div>
         </div>
@@ -75,7 +75,9 @@
                     Get notified always <br />
                     500 free templates for your research
                 </p>
-                <a class="btn btn-primary" href="#">Subscribe Now</a>
+                <a href="@Url.Action("Register", "Account", new { plan = "standard_monthly" })" class="btn btn-primary">
+                    Free Trial
+                </a>
             </div>
             <div class="col-md-4 premium">
                 <h5 class="card-title text-uppercase">Premium Plan</h5>

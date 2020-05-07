@@ -208,10 +208,15 @@
     <Compile Include="Migrations\202005061539304_Initial.Designer.cs">
       <DependentUpon>202005061539304_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005071933180_NotesAddedToModel.cs" />
+    <Compile Include="Migrations\202005071933180_NotesAddedToModel.Designer.cs">
+      <DependentUpon>202005071933180_NotesAddedToModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Views\Billing\ViewModels\FlashViewModels.cs" />
@@ -428,6 +433,7 @@
     <Content Include="Views\Billing\CancelSubscription.cshtml" />
     <Content Include="Views\Billing\BillingAddress.cshtml" />
     <Content Include="Views\Billing\AddCreditCard.cshtml" />
+    <Content Include="Views\Shared\_DashboardLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -444,6 +450,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202005061539304_Initial.resx">
       <DependentUpon>202005061539304_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005071933180_NotesAddedToModel.resx">
+      <DependentUpon>202005071933180_NotesAddedToModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

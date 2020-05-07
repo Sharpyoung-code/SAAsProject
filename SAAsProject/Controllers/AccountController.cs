@@ -9,6 +9,13 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SAAsProject.Models;
+using SAAsProject.Views.SaasEcom.ViewModels;
+using SaasEcom.Core.Infrastructure.Facades;
+using SaasEcom.Core.Infrastructure.PaymentProcessor.Stripe;
+using System.Configuration;
+using SaasEcom.Core.DataServices.Storage;
+using SaasEcom.Core.Models;
+
 
 namespace SAAsProject.Controllers
 {
@@ -22,7 +29,7 @@ namespace SAAsProject.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +41,9 @@ namespace SAAsProject.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -49,6 +56,23 @@ namespace SAAsProject.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+        private SubscriptionsFacade _subscriptionsFacade;
+        private SubscriptionsFacade SubscriptionsFacade
+        {
+            get
+            {
+                return _subscriptionsFacade ?? (_subscriptionsFacade = new SubscriptionsFacade(
+                    new SubscriptionDataService<ApplicationDbContext, ApplicationUser>
+                        (HttpContext.GetOwinContext().Get<ApplicationDbContext>()),
+                    new SubscriptionProvider(ConfigurationManager.AppSettings["StripeApiSecretKey"]),
+                    new CardProvider(ConfigurationManager.AppSettings["StripeApiSecretKey"],
+                        new CardDataService<ApplicationDbContext, ApplicationUser>(Request.GetOwinContext().Get<ApplicationDbContext>())),
+                    new CardDataService<ApplicationDbContext, ApplicationUser>(Request.GetOwinContext().Get<ApplicationDbContext>()),
+                    new CustomerProvider(ConfigurationManager.AppSettings["StripeApiSecretKey"]),
+                    new SubscriptionPlanDataService<ApplicationDbContext, ApplicationUser>(Request.GetOwinContext().Get<ApplicationDbContext>()),
+                    new ChargeProvider(ConfigurationManager.AppSettings["StripeApiSecretKey"])));
             }
         }
 
@@ -120,7 +144,7 @@ namespace SAAsProject.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -137,9 +161,12 @@ namespace SAAsProject.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string plan)
         {
-            return View();
+            return View(new RegisterViewModel
+            {
+                SubscriptionPlan = plan
+            });
         }
 
         //
@@ -151,26 +178,38 @@ namespace SAAsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    RegistrationDate = DateTime.UtcNow,
+                    LastLoginTime = DateTime.UtcNow
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    // if no plan set, default to professional
+                    var planId = string.IsNullOrEmpty(model.SubscriptionPlan)
+                      ? "standard_monthly"
+                    : model.SubscriptionPlan;
+
+                    await SubscriptionsFacade.SubscribeUserAsync(user, model.SubscriptionPlan);
+                    await UserManager.UpdateAsync(user);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
 
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
-
+        
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
 
         //
         // GET: /Account/ConfirmEmail
