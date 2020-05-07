@@ -17,6 +17,8 @@ using SaasEcom.Core.Infrastructure.PaymentProcessor.Stripe;
 using SaasEcom.Core.Models;
 using SAAsProject.Models;
 using SAAsProject.Views.SaasEcom.ViewModels;
+using SAAsProject.Extensions;
+using SaasEcom.Core.Infrastructure.Helpers;
 
 namespace SAAsProject.Controllers
 {
@@ -106,7 +108,7 @@ namespace SAAsProject.Controllers
             ViewBag.Subscriptions = await SubscriptionsFacade.UserActiveSubscriptionsAsync(User.Identity.GetUserId());
             ViewBag.PaymentDetails = await SubscriptionsFacade.DefaultCreditCard(User.Identity.GetUserId());
             ViewBag.Invoices = await InvoiceDataService.UserInvoicesAsync(User.Identity.GetUserId());
-           
+            ViewBag.BillingAddress = (await UserManager.FindByIdAsync(userId)).BillingAddress;
 
             return View();
         }
@@ -257,28 +259,55 @@ namespace SAAsProject.Controllers
             return View(model);
         }
 
-		public ViewResult BillingAddress()
+		public async Task<ViewResult> BillingAddress()
         {
-			// TODO: Get Billing address from your model
-			var model = new BillingAddress();
+            var model = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).BillingAddress;
+
+            // List for dropdown country select
+            var userCountry = (await UserManager.FindByIdAsync(User.Identity.GetUserId())).IPAddressCountry;
+            ViewBag.Countries = GeoLocationHelper.SelectListCountries(userCountry);
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult BillingAddress(BillingAddress model)
+        public async Task<ActionResult> BillingAddress(BillingAddress model)
         {
             if (ModelState.IsValid)
             {
-                // TODO: Call your service to save the billing address
+                var userId = User.Identity.GetUserId();
 
+                // Call your service to save the billing address
+                var user = await UserManager.FindByIdAsync(userId);
+                user.BillingAddress = model;
+                await UserManager.UpdateAsync(user);
 
-                // TempData.Add("flash", new FlashSuccessViewModel("Your billing address has been saved."));
+                // Model Country has to be 2 letter ISO Code
+                if (!string.IsNullOrEmpty(model.Vat) && !string.IsNullOrEmpty(model.Country) &&
+                    EuropeanVat.Countries.ContainsKey(model.Country))
+                {
+                    await UpdateSubscriptionTax(userId, 0);
+                }
+                else if (!string.IsNullOrEmpty(model.Country) && EuropeanVat.Countries.ContainsKey(model.Country))
+                {
+                    await UpdateSubscriptionTax(userId, EuropeanVat.Countries[model.Country]);
+                }
+
+                TempData.Add("flash", new FlashSuccessViewModel("Your billing address has been saved."));
 
                 return RedirectToAction("Index");
             }
 
             return View(model);
+        }
+        private async Task UpdateSubscriptionTax(string userId, decimal tax)
+        {
+            var user = await UserManager.FindByIdAsync(userId);
+            var subscription = (await SubscriptionsFacade.UserActiveSubscriptionsAsync(userId)).FirstOrDefault();
+            if (subscription != null && subscription.TaxPercent != tax)
+            {
+                await SubscriptionsFacade.UpdateSubscriptionTax(user, subscription.StripeId, tax);
+            }
         }
 
         public async Task<ViewResult> Invoice(int id)

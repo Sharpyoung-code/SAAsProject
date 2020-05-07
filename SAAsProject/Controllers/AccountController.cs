@@ -207,7 +207,7 @@ namespace SAAsProject.Controllers
                     await UserManager.UpdateAsync(user);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-
+                    TempData.Add("flash", new FlashSuccessViewModel("Congratulations your account have been created."));
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
