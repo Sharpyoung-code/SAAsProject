@@ -194,10 +194,10 @@ namespace SAAsProject.Controllers
 
 
                 if (result.Succeeded)
-                {
-                    var taxPercent = EuropeanVat.Countries.ContainsKey(user.IPAddressCountry) ?
+                { 
+                var taxPercent = user.IPAddressCountry != null && EuropeanVat.Countries.ContainsKey(user.IPAddressCountry) ?
                                      EuropeanVat.Countries[user.IPAddressCountry] : 0;
-                    await SubscriptionsFacade.SubscribeUserAsync(user, model.SubscriptionPlan, taxPercent: taxPercent);
+                    
                     // if no plan set, default to professional
                     var planId = string.IsNullOrEmpty(model.SubscriptionPlan)
                       ? "standard_monthly"
@@ -207,8 +207,8 @@ namespace SAAsProject.Controllers
                     await UserManager.UpdateAsync(user);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    TempData.Add("flash", new FlashSuccessViewModel("Congratulations your account have been created."));
-                    return RedirectToAction("Index", "Home");
+                    TempData.Add("flash", new FlashSuccessViewModel("Congratulations! your account has been created."));
+                    return RedirectToAction("Index", "Notes");
                 }
                 AddErrors(result);
             }
